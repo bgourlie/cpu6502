@@ -20,13 +20,13 @@ macro_rules! assert_length_and_cycles {
         let mut cpu = TestCpu::new_test();
         cpu.registers.x = 1;
         cpu.registers.y = 1;
-        cpu.interconnect().store_many(0x55, &[0xff, 0x33]);
+        cpu.interconnect.store_many(0x55, &[0xff, 0x33]);
         let asm = $asm;
         let mut buf = Vec::<u8>::new();
         match assemble(asm.as_bytes(), &mut buf) {
             Err(msg) => panic!(format!("Failed to assemble '{}': {}", asm, msg)),
             _ => {
-                cpu.interconnect().store_many(0x200, &buf[..]);
+                cpu.interconnect.store_many(0x200, &buf[..]);
                 let expected_cycles = $expected_cycles;
                 let expected_len = $expected_len;
                 cpu.step();
@@ -39,11 +39,11 @@ macro_rules! assert_length_and_cycles {
                     )
                 }
 
-                if expected_cycles != cpu.interconnect().elapsed_cycles() {
+                if expected_cycles != cpu.interconnect.elapsed_cycles() {
                     panic!(
                         "Expected number of executed cycles to be {} but it was {}",
                         expected_cycles,
-                        cpu.interconnect().elapsed_cycles()
+                        cpu.interconnect.elapsed_cycles()
                     )
                 }
             }
@@ -59,14 +59,14 @@ macro_rules! assert_cycles {
         match assemble(asm.as_bytes(), &mut buf) {
             Err(msg) => panic!(format!("Failed to assemble '{}': {}", asm, msg)),
             _ => {
-                cpu.interconnect().store_many(0x200, &buf[..]);
+                cpu.interconnect.store_many(0x200, &buf[..]);
                 let expected_cycles = $expected_cycles;
                 cpu.step();
-                if expected_cycles != cpu.interconnect().elapsed_cycles() {
+                if expected_cycles != cpu.interconnect.elapsed_cycles() {
                     panic!(
                         "Expected number of executed cycles to be {} but it was {}",
                         expected_cycles,
-                        cpu.interconnect().elapsed_cycles()
+                        cpu.interconnect.elapsed_cycles()
                     )
                 }
             }
@@ -87,7 +87,7 @@ macro_rules! assert_length_and_cycles_relative {
             Err(msg) => panic!(format!("Failed to assemble '{}': {}", asm, msg)),
             _ => {
                 cpu.registers.pc = 0x27f;
-                cpu.interconnect().store_many(0x27f, &buf[..]);
+                cpu.interconnect.store_many(0x27f, &buf[..]);
                 let expected_cycles = $expected_cycles;
                 let expected_len = $expected_len;
                 cpu.step();
@@ -100,11 +100,11 @@ macro_rules! assert_length_and_cycles_relative {
                     )
                 }
 
-                if expected_cycles != cpu.interconnect().elapsed_cycles() {
+                if expected_cycles != cpu.interconnect.elapsed_cycles() {
                     panic!(
                         "Expected number of executed cycles to be {} but it was {}",
                         expected_cycles,
-                        cpu.interconnect().elapsed_cycles()
+                        cpu.interconnect.elapsed_cycles()
                     )
                 }
             }

@@ -6,8 +6,8 @@ use cpu::*;
 fn reset() {
     let mut cpu = TestCpu::new_test();
     let (addr_low, addr_high) = lo_hi(0xdead);
-    cpu.interconnect().write(RESET_VECTOR, addr_low);
-    cpu.interconnect().write(RESET_VECTOR + 1, addr_high);
+    cpu.interconnect.write(RESET_VECTOR, addr_low);
+    cpu.interconnect.write(RESET_VECTOR + 1, addr_high);
     cpu.reset();
     assert_eq!(cpu.registers.pc, 0xdead);
 }
@@ -16,8 +16,8 @@ fn reset() {
 fn nmi() {
     let mut cpu = TestCpu::new_test();
     let (addr_low, addr_high) = lo_hi(0xdead);
-    cpu.interconnect().write(NMI_VECTOR, addr_low);
-    cpu.interconnect().write(NMI_VECTOR + 1, addr_high);
+    cpu.interconnect.write(NMI_VECTOR, addr_low);
+    cpu.interconnect.write(NMI_VECTOR + 1, addr_high);
     cpu.nmi();
     assert_eq!(cpu.registers.pc, 0xdead);
 }

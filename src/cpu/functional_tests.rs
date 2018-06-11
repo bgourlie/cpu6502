@@ -13,13 +13,13 @@ fn opcodes() {
     f.read_to_end(&mut rom).unwrap();
     let mem = TestInterconnect::default();
     let mut cpu = Cpu::new(mem, PC_START);
-    cpu.interconnect().store_many(PC_START, &rom);
+    cpu.interconnect.store_many(PC_START, &rom);
     let mut last_pc = PC_START;
 
     loop {
         cpu.step();
         // Prevent endless loop
-        if cpu.interconnect().elapsed_cycles() > MAX_CYCLES {
+        if cpu.interconnect.elapsed_cycles() > MAX_CYCLES {
             assert!(false, "Took too many cycles to complete");
         }
 
@@ -43,7 +43,7 @@ fn interrupts() {
     f.read_to_end(&mut rom).unwrap();
     let mem = TestInterconnect::default();
     let mut cpu = Cpu::new(mem, PC_START);
-    cpu.interconnect().store_many(PC_START, &rom);
+    cpu.interconnect.store_many(PC_START, &rom);
     let mut last_pc = PC_START;
     let mut previous_interrupt_probe = 0;
 
@@ -64,7 +64,7 @@ fn interrupts() {
 
         cpu.step();
         // Prevent endless loop
-        if cpu.interconnect().elapsed_cycles() > MAX_CYCLES {
+        if cpu.interconnect.elapsed_cycles() > MAX_CYCLES {
             assert!(false, "Took too many cycles to complete");
         }
 

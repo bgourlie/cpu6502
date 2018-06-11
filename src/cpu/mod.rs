@@ -39,7 +39,7 @@ pub trait Interconnect {
 
 pub struct Cpu<I: Interconnect> {
     registers: Registers,
-    interconnect: I,
+    pub interconnect: I,
     pending_interrupt: Interrupt,
 }
 
@@ -167,9 +167,5 @@ impl<I: Interconnect> Cpu<I> {
         let low_byte = self.pop_stack();
         let high_byte = self.pop_stack();
         from_lo_hi(low_byte, high_byte)
-    }
-
-    fn interconnect(&mut self) -> &mut I {
-        &mut self.interconnect
     }
 }
