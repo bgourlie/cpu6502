@@ -170,4 +170,8 @@ impl<I: Interconnect> Cpu<I> {
         let high_byte = self.pop_stack();
         from_lo_hi(low_byte, high_byte)
     }
+
+    fn interconnect(&mut self) -> &mut I {
+        &mut self.interconnect
+    }
 }

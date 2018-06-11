@@ -12,6 +12,12 @@ impl TestInterconnect {
             addr: [0; ADDRESSABLE_MEMORY],
         }
     }
+
+    pub fn store_many(&mut self, addr: u16, data: &[u8]) {
+        for (i, byte) in data.iter().enumerate() {
+            self.write(addr + i as u16, *byte);
+        }
+    }
 }
 
 impl Default for TestInterconnect {
@@ -42,15 +48,5 @@ impl Cpu<TestInterconnect> {
     pub fn new_test() -> Self {
         let interconnect = TestInterconnect::default();
         Cpu::new(interconnect, 0x200)
-    }
-
-    pub fn write(&mut self, addr: u16, value: u8) {
-        self.interconnect.write(addr, value);
-    }
-
-    pub fn store_many(&mut self, addr: u16, data: &[u8]) {
-        for (i, byte) in data.iter().enumerate() {
-            self.interconnect.write(addr + i as u16, *byte);
-        }
     }
 }

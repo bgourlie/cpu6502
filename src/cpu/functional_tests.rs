@@ -13,7 +13,7 @@ fn opcodes() {
     f.read_to_end(&mut rom).unwrap();
     let mem = TestInterconnect::default();
     let mut cpu = Cpu::new(mem, PC_START);
-    cpu.store_many(PC_START, &rom);
+    cpu.interconnect().store_many(PC_START, &rom);
     let mut last_pc = PC_START;
 
     loop {
@@ -43,7 +43,7 @@ fn interrupts() {
     f.read_to_end(&mut rom).unwrap();
     let mem = TestInterconnect::default();
     let mut cpu = Cpu::new(mem, PC_START);
-    cpu.store_many(PC_START, &rom);
+    cpu.interconnect().store_many(PC_START, &rom);
     let mut last_pc = PC_START;
     let mut previous_interrupt_probe = 0;
 
