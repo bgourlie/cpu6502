@@ -1,5 +1,6 @@
 use asm6502::assemble;
 use cpu::test_fixture::TestCpu;
+use cpu::Interconnect;
 
 // TODO: Consolidate duplicated logic in the assert macros
 
@@ -38,10 +39,11 @@ macro_rules! assert_length_and_cycles {
                     )
                 }
 
-                if expected_cycles != cpu.cycles {
+                if expected_cycles != cpu.interconnect().elapsed_cycles() {
                     panic!(
                         "Expected number of executed cycles to be {} but it was {}",
-                        expected_cycles, cpu.cycles
+                        expected_cycles,
+                        cpu.interconnect().elapsed_cycles()
                     )
                 }
             }
@@ -60,10 +62,11 @@ macro_rules! assert_cycles {
                 cpu.interconnect().store_many(0x200, &buf[..]);
                 let expected_cycles = $expected_cycles;
                 cpu.step();
-                if expected_cycles != cpu.cycles {
+                if expected_cycles != cpu.interconnect().elapsed_cycles() {
                     panic!(
                         "Expected number of executed cycles to be {} but it was {}",
-                        expected_cycles, cpu.cycles
+                        expected_cycles,
+                        cpu.interconnect().elapsed_cycles()
                     )
                 }
             }
@@ -97,10 +100,11 @@ macro_rules! assert_length_and_cycles_relative {
                     )
                 }
 
-                if expected_cycles != cpu.cycles {
+                if expected_cycles != cpu.interconnect().elapsed_cycles() {
                     panic!(
                         "Expected number of executed cycles to be {} but it was {}",
-                        expected_cycles, cpu.cycles
+                        expected_cycles,
+                        cpu.interconnect().elapsed_cycles()
                     )
                 }
             }

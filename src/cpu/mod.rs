@@ -34,13 +34,13 @@ pub trait Interconnect {
     fn read(&self, address: u16) -> u8;
     fn write(&mut self, address: u16, value: u8);
     fn tick(&mut self) -> Interrupt;
+    fn elapsed_cycles(&self) -> usize;
 }
 
 pub struct Cpu<I: Interconnect> {
     registers: Registers,
     interconnect: I,
     pending_interrupt: Interrupt,
-    pub cycles: u64,
 }
 
 impl<I: Interconnect> Cpu<I> {
@@ -48,7 +48,6 @@ impl<I: Interconnect> Cpu<I> {
         let mut cpu = Cpu {
             registers: Registers::new(),
             interconnect,
-            cycles: 0,
             pending_interrupt: Interrupt::None,
         };
         cpu.registers.pc = pc;
@@ -127,7 +126,6 @@ impl<I: Interconnect> Cpu<I> {
     }
 
     fn tick(&mut self) {
-        self.cycles += 1;
         if self.interconnect.tick() == Interrupt::Nmi {
             self.pending_interrupt = Interrupt::Nmi;
         }

@@ -4,12 +4,14 @@ use cpu::{Interconnect, Interrupt, ADDRESSABLE_MEMORY};
 
 pub struct TestInterconnect {
     addr: [u8; ADDRESSABLE_MEMORY],
+    elapsed_cycles: usize,
 }
 
 impl TestInterconnect {
     pub fn new() -> Self {
         TestInterconnect {
             addr: [0; ADDRESSABLE_MEMORY],
+            elapsed_cycles: 0,
         }
     }
 
@@ -38,7 +40,12 @@ impl Interconnect for TestInterconnect {
     }
 
     fn tick(&mut self) -> Interrupt {
+        self.elapsed_cycles += 1;
         Interrupt::None
+    }
+
+    fn elapsed_cycles(&self) -> usize {
+        self.elapsed_cycles
     }
 }
 

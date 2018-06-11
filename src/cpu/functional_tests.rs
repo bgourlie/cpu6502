@@ -4,7 +4,7 @@ use std::fs::File;
 use std::io::Read;
 
 const PC_START: u16 = 0x400;
-const MAX_CYCLES: u64 = 100000000;
+const MAX_CYCLES: usize = 100000000;
 
 #[test]
 fn opcodes() {
@@ -19,7 +19,7 @@ fn opcodes() {
     loop {
         cpu.step();
         // Prevent endless loop
-        if cpu.cycles > MAX_CYCLES {
+        if cpu.interconnect().elapsed_cycles() > MAX_CYCLES {
             assert!(false, "Took too many cycles to complete");
         }
 
@@ -64,7 +64,7 @@ fn interrupts() {
 
         cpu.step();
         // Prevent endless loop
-        if cpu.cycles > MAX_CYCLES {
+        if cpu.interconnect().elapsed_cycles() > MAX_CYCLES {
             assert!(false, "Took too many cycles to complete");
         }
 
