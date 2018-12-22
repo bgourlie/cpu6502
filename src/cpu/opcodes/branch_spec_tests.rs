@@ -1,5 +1,4 @@
-use crate::cpu::opcodes::*;
-use crate::cpu::test_fixture::TestCpu;
+use crate::cpu::{opcodes::*, test_fixture::TestCpu};
 
 #[test]
 fn bpl_not_crossing_page_boundary_positive_offset() {

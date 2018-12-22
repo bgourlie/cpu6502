@@ -1,8 +1,8 @@
-use crate::cpu::opcodes::AddressingMode;
-use crate::cpu::test_fixture::TestCpu;
-use crate::cpu::test_fixture::TestInterconnect;
-use std::cell::Cell;
-use std::rc::Rc;
+use crate::cpu::{
+    opcodes::AddressingMode,
+    test_fixture::{TestCpu, TestInterconnect},
+};
+use std::{cell::Cell, rc::Rc};
 
 impl AddressingMode<TestInterconnect> for u8 {
     type Output = u8;

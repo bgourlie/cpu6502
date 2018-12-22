@@ -1,6 +1,5 @@
+use crate::cpu::{test_fixture::TestCpu, Interconnect};
 use asm6502::assemble;
-use crate::cpu::test_fixture::TestCpu;
-use crate::cpu::Interconnect;
 
 // TODO: Consolidate duplicated logic in the assert macros
 

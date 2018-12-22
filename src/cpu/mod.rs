@@ -13,8 +13,10 @@ mod length_and_timing_tests;
 mod opcodes;
 mod registers;
 
-use crate::byte_utils::{from_lo_hi, lo_hi, wrapping_dec, wrapping_inc};
-use crate::cpu::registers::Registers;
+use crate::{
+    byte_utils::{from_lo_hi, lo_hi, wrapping_dec, wrapping_inc},
+    cpu::registers::Registers,
+};
 
 pub const ADDRESSABLE_MEMORY: usize = 65_536;
 const STACK_LOC: u16 = 0x100;

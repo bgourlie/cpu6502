@@ -28,8 +28,10 @@ mod inc_dec_spec_tests;
 #[cfg(test)]
 mod jump_and_returns_instr_spec_tests;
 
-use crate::byte_utils::*;
-use crate::cpu::{Cpu, Interconnect};
+use crate::{
+    byte_utils::*,
+    cpu::{Cpu, Interconnect},
+};
 
 const BRK_VECTOR: u16 = 0xfffe;
 

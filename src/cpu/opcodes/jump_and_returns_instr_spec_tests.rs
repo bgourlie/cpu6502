@@ -1,7 +1,6 @@
 // TODO: RTI, BRK tests
 
-use crate::cpu::opcodes::*;
-use crate::cpu::test_fixture::TestCpu;
+use crate::cpu::{opcodes::*, test_fixture::TestCpu};
 
 #[test]
 fn jmp() {

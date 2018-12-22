@@ -1,7 +1,5 @@
-use crate::cpu::test_fixture::TestInterconnect;
-use crate::cpu::*;
-use std::fs::File;
-use std::io::Read;
+use crate::cpu::{test_fixture::TestInterconnect, *};
+use std::{fs::File, io::Read};
 
 const PC_START: u16 = 0x400;
 const MAX_CYCLES: usize = 100000000;

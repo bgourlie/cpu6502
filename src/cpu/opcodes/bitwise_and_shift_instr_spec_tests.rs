@@ -1,5 +1,4 @@
-use crate::cpu::opcodes::*;
-use crate::cpu::test_fixture::TestCpu;
+use crate::cpu::{opcodes::*, test_fixture::TestCpu};
 
 fn asl(cpu: &mut TestCpu, val: u8) -> (u8, bool) {
     Asl::execute(cpu, val);

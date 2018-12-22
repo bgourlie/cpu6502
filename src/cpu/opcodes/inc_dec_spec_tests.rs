@@ -1,6 +1,7 @@
-use crate::cpu::opcodes::am_test_utils::*;
-use crate::cpu::opcodes::*;
-use crate::cpu::test_fixture::TestCpu;
+use crate::cpu::{
+    opcodes::{am_test_utils::*, *},
+    test_fixture::TestCpu,
+};
 
 #[test]
 fn dec_test1() {
