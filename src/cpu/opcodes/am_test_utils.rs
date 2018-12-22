@@ -1,6 +1,6 @@
-use cpu::opcodes::AddressingMode;
-use cpu::test_fixture::TestCpu;
-use cpu::test_fixture::TestInterconnect;
+use crate::cpu::opcodes::AddressingMode;
+use crate::cpu::test_fixture::TestCpu;
+use crate::cpu::test_fixture::TestInterconnect;
 use std::cell::Cell;
 use std::rc::Rc;
 

@@ -1,6 +1,6 @@
-use cpu::Cpu;
+use crate::cpu::Cpu;
 
-use cpu::{Interconnect, Interrupt, ADDRESSABLE_MEMORY};
+use crate::cpu::{Interconnect, Interrupt, ADDRESSABLE_MEMORY};
 
 pub struct TestInterconnect {
     addr: [u8; ADDRESSABLE_MEMORY],

@@ -1,6 +1,6 @@
-use byte_utils::lo_hi;
-use cpu::test_fixture::TestCpu;
-use cpu::*;
+use crate::byte_utils::lo_hi;
+use crate::cpu::test_fixture::TestCpu;
+use crate::cpu::*;
 
 #[test]
 fn reset() {

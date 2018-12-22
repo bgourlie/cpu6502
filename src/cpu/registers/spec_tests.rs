@@ -1,4 +1,4 @@
-use cpu::registers::Registers;
+use crate::cpu::registers::Registers;
 
 #[test]
 fn carry_flag() {

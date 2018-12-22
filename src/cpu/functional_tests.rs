@@ -1,5 +1,5 @@
-use cpu::test_fixture::TestInterconnect;
-use cpu::*;
+use crate::cpu::test_fixture::TestInterconnect;
+use crate::cpu::*;
 use std::fs::File;
 use std::io::Read;
 
