@@ -1,6 +1,3 @@
-#![allow(unknown_lints)]
-#![allow(cast_lossless)]
-
 #[cfg(test)]
 extern crate asm6502;
 

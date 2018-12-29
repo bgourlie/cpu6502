@@ -117,8 +117,8 @@ impl<I: Interconnect> Cpu<I> {
     }
 
     fn read_memory16_zp(&mut self, addr: u8) -> u16 {
-        let low_byte = self.read_memory(addr as u16);
-        let high_byte = self.read_memory(wrapping_inc(addr) as u16);
+        let low_byte = self.read_memory(u16::from(addr));
+        let high_byte = self.read_memory(u16::from(wrapping_inc(addr)));
         from_lo_hi(low_byte, high_byte)
     }
 
@@ -143,11 +143,11 @@ impl<I: Interconnect> Cpu<I> {
     fn read_pc16(&mut self) -> u16 {
         let low_byte = self.read_pc();
         let high_byte = self.read_pc();
-        low_byte as u16 | (high_byte as u16) << 8
+        u16::from(low_byte) | u16::from(high_byte) << 8
     }
 
     fn push_stack(&mut self, value: u8) {
-        let sp = self.registers.sp as u16;
+        let sp = u16::from(self.registers.sp);
         self.write_memory(STACK_LOC + sp, value);
         self.registers.sp = wrapping_dec(self.registers.sp);
     }
@@ -160,7 +160,7 @@ impl<I: Interconnect> Cpu<I> {
 
     fn pop_stack(&mut self) -> u8 {
         let sp = wrapping_inc(self.registers.sp);
-        let val = self.read_memory(STACK_LOC + sp as u16);
+        let val = self.read_memory(STACK_LOC + u16::from(sp));
         self.registers.sp = sp;
         val
     }

@@ -688,7 +688,7 @@ impl AbsoluteX {
 
     fn init_base<I: Interconnect>(cpu: &mut Cpu<I>, variant: Variant) -> Self {
         let base_addr = cpu.read_pc16();
-        let target_addr = base_addr + cpu.registers.x as u16;
+        let target_addr = base_addr + u16::from(cpu.registers.x);
 
         // Conditional cycle if memory page crossed
         if variant != Variant::Store
@@ -745,7 +745,7 @@ impl AbsoluteY {
 
     fn init_base<I: Interconnect>(cpu: &mut Cpu<I>, is_store: bool) -> Self {
         let base_addr = cpu.read_pc16();
-        let target_addr = base_addr + cpu.registers.y as u16;
+        let target_addr = base_addr + u16::from(cpu.registers.y);
 
         // Conditional cycle if memory page crossed
         if !is_store && base_addr & 0xff00 != target_addr & 0xff00 {
@@ -831,9 +831,7 @@ pub struct Implied;
 impl<I: Interconnect> AddressingMode<I> for Implied {
     type Output = ();
 
-    fn read(&self) -> Self::Output {
-        ()
-    }
+    fn read(&self) -> Self::Output {}
 }
 
 #[derive(Copy, Clone)]
@@ -853,7 +851,7 @@ impl IndexedIndirect {
 
     fn init_base<I: Interconnect>(cpu: &mut Cpu<I>, is_store: bool) -> Self {
         let operand = cpu.read_pc();
-        let base_addr = wrapping_add(operand, cpu.registers.x) as u16;
+        let base_addr = u16::from(wrapping_add(operand, cpu.registers.x));
 
         if !is_store {
             // Dummy read cycle
@@ -865,7 +863,7 @@ impl IndexedIndirect {
 
         IndexedIndirect {
             addr: target_addr,
-            value: value,
+            value,
         }
     }
 }
@@ -933,7 +931,7 @@ impl IndirectIndexed {
         let addr = cpu.read_pc();
         let y = cpu.registers.y;
         let base_addr = cpu.read_memory16_zp(addr);
-        let target_addr = base_addr + y as u16;
+        let target_addr = base_addr + u16::from(y);
 
         // Conditional cycle if memory page crossed
         if !is_store && base_addr & 0xff00 != target_addr & 0xff00 {
@@ -989,21 +987,21 @@ pub struct ZeroPage {
 
 impl ZeroPage {
     pub fn init<I: Interconnect>(cpu: &mut Cpu<I>) -> Self {
-        let addr = cpu.read_pc() as u16;
+        let addr = u16::from(cpu.read_pc());
         let val = cpu.read_memory(addr);
 
         ZeroPage {
-            addr: addr,
+            addr,
             value: val,
             is_store: false,
         }
     }
 
     pub fn init_store<I: Interconnect>(cpu: &mut Cpu<I>) -> Self {
-        let addr = cpu.read_pc() as u16;
+        let addr = u16::from(cpu.read_pc());
 
         ZeroPage {
-            addr: addr,
+            addr,
             value: 0x0, // Stores don't read memory, can cause illegal memory access if attempted
             is_store: true,
         }
@@ -1036,7 +1034,7 @@ pub struct ZeroPageX {
 impl ZeroPageX {
     pub fn init<I: Interconnect>(cpu: &mut Cpu<I>) -> Self {
         let base_addr = cpu.read_pc();
-        let target_addr = wrapping_add(base_addr, cpu.registers.x) as u16;
+        let target_addr = u16::from(wrapping_add(base_addr, cpu.registers.x));
 
         // Dummy read cycle
         cpu.tick();
@@ -1052,7 +1050,7 @@ impl ZeroPageX {
 
     pub fn init_store<I: Interconnect>(cpu: &mut Cpu<I>) -> Self {
         let base_addr = cpu.read_pc();
-        let target_addr = wrapping_add(base_addr, cpu.registers.x) as u16;
+        let target_addr = u16::from(wrapping_add(base_addr, cpu.registers.x));
 
         let val = cpu.read_memory(target_addr);
 
@@ -1098,7 +1096,7 @@ impl ZeroPageY {
 
     fn init_base<I: Interconnect>(cpu: &mut Cpu<I>, is_store: bool) -> Self {
         let base_addr = cpu.read_pc();
-        let target_addr = wrapping_add(base_addr, cpu.registers.y) as u16;
+        let target_addr = u16::from(wrapping_add(base_addr, cpu.registers.y));
 
         if !is_store {
             // Dummy read cycle
@@ -1115,7 +1113,7 @@ impl ZeroPageY {
         ZeroPageY {
             addr: target_addr,
             value: val,
-            is_store: is_store,
+            is_store,
         }
     }
 }
@@ -1297,7 +1295,7 @@ fn branch<I: Interconnect, AM: AddressingMode<I, Output = i8>>(
     if condition {
         let rel_addr = am.read();
         let old_pc = cpu.registers.pc;
-        cpu.registers.pc = (cpu.registers.pc as i32 + rel_addr as i32) as u16;
+        cpu.registers.pc = (i32::from(cpu.registers.pc) + i32::from(rel_addr)) as u16;
         cpu.tick();
 
         // Conditional cycle if pc crosses page boundary
@@ -1421,7 +1419,7 @@ impl OpCode for Bne {
 
 fn compare<I: Interconnect, AM: AddressingMode<I, Output = u8>>(cpu: &mut Cpu<I>, am: AM, lhs: u8) {
     let rhs = am.read();
-    let res = lhs as i32 - rhs as i32;
+    let res = i32::from(lhs) - i32::from(rhs);
     cpu.registers.set_carry_flag(res & 0x100 == 0);
     cpu.registers.set_sign_and_zero_flag(res as u8);
 }

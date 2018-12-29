@@ -6,9 +6,8 @@ pub fn lo_hi(val: u16) -> (u8, u8) {
     (low_byte, high_byte)
 }
 
-#[allow(cast_lossless)]
 pub fn from_lo_hi(low: u8, high: u8) -> u16 {
-    low as u16 | (high as u16) << 8
+    u16::from(low) | u16::from(high) << 8
 }
 
 pub fn wrapping_add(lhs: u8, rhs: u8) -> u8 {
