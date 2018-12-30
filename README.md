@@ -1,6 +1,11 @@
 # cpu6502 [![Build Status](https://travis-ci.org/bgourlie/cpu6502.svg?branch=master)](https://travis-ci.org/bgourlie/cpu6502)
+
 An accurate 6502 emulator written in rust. Currently, it implements the NES variant of the 6502, meaning it doesn't 
 emulate decimal mode.
+
+## This repository is no longer maintained
+
+This repository has been consolidated into the [rs-nes](https://github.com/bgourlie/rs-nes) repository.
 
 ### Testing
 
